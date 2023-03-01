@@ -1,12 +1,28 @@
 # yolo_video_detect
 
-YOLO模型檢測影片並儲存結果
+This program is used for YOLO model detection video, you can use the Realsense camera to view the recognition results in real time
 
 
 
-1. 下載此專案
+## Building
 ```bash
 git clone https://github.com/TKUwengkunduo/yolo_video_detect.git
+
+cd yolo_video_detect
 ```
-  
-2. 請自行下載.weights並放到/cfg/weights資料夾中
+
+## Install weights
+Please download `.weights` yourself and put it in the `/cfg/weights` folder
+
+## Get file
+Please put the following two files in your darknet folder into this folder to replace the original files
+`darknet`
+`libdarknet.so`
+
+## Run
+```bash
+python3 YOLO_Detect.py
+```
+
+## other
+`.data` may need to be changed according to the situation
