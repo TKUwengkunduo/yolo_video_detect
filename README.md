@@ -11,13 +11,22 @@ git clone https://github.com/TKUwengkunduo/yolo_video_detect.git
 cd yolo_video_detect
 ```
 
-## Install weights
-Please download `.weights` yourself and put it in the `/cfg/weights` folder
-
 ## Get file
+1. Put `.weights` in the `/cfg/weights` folder
+2. Replace the original files with your own `.cfg`, `.data` and `.name`
+
+## Get darknet file
 Please put the following two files in your darknet folder into this folder to replace the original files
 `darknet`
 `libdarknet.so`
+
+## Modify path
+In the `YOLO_Detect.py` file, modify the following lines according to the path and name of your file:
+```bash
+data_path = 'cfg/yolov4.data'
+cfg_path = 'cfg/yolov4.cfg'
+weights_path = 'cfg/weights/yolov4.weights'
+```
 
 ## Run
 ```bash
