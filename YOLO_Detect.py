@@ -9,26 +9,26 @@
         7. libdarknet.so
 """
 
-
-import time
 import cv2
 import numpy as np
 import darknet
+import pyrealsense2 as rs
 
 
 
-# 欲檢測影片
-video = cv2.VideoCapture("/home/juiwen/Downloads/temp/a.avi")
-
-# 輸出影片
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out_video = cv2.VideoWriter('/home/juiwen/Downloads/tttn.avi', fourcc, 30.0, (1280,  720))
+pipeline = rs.pipeline()
+config = rs.config()
+config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
+config.enable_stream(rs.stream.color, 1280, 720, rs.format.bgr8, 30)
+pipeline.start(config)
+sensor = pipeline.get_active_profile().get_device().query_sensors()[1]
+sensor.set_option(rs.option.auto_exposure_priority, True)
 
 
 # 神經網路檔案位置
-data_path = '/home/juiwen/yolo/YOLO_Videos_Detect/cfg/Full_Puzzle.data'
-cfg_path = '/home/juiwen/yolo/YOLO_Videos_Detect/cfg/Full_Puzzle.cfg'
-weights_path = '/home/juiwen/yolo/YOLO_Videos_Detect/cfg/weights/Full_Puzzle/yolov4-tiny-obj_best.weights'
+data_path = 'cfg/yolov4.data'
+cfg_path = 'cfg/yolov4.cfg'
+weights_path = 'cfg/weights/yolov4.weights'
 
 
 
@@ -138,18 +138,16 @@ if __name__ == "__main__":
 
     while True:
 
-        ret, img = video.read()
+        frames = pipeline.wait_for_frames()
+        img = frames.get_color_frame()
+        img = np.asanyarray(img.get_data())
 
-        detections = image_detection(img,network, class_names, class_colors, thresh=0.75)
+        detections = image_detection(img,network, class_names, class_colors, thresh=0.9)
         out_img = draw_boxes(detections, img, class_colors)
 
         cv2.imshow('out', out_img)
-        out_video.write(out_img)
         cv2.waitKey(1)
 
 
-
-video.release()
-out_video.release()
 cv2.destroyAllWindows()
 

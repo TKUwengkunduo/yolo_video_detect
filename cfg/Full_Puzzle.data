@@ -1,5 +1,0 @@
-classes=35
-train=../Full_Puzzle/cfg/train_sever.txt
-valid=../Full_Puzzle/cfg/val_sever.txt
-names=/home/juiwen/yolo/YOLO_Videos_Detect/cfg/Full_Puzzle.names
-backup=../Full_Puzzle/cfg/weights/test
